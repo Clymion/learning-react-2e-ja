@@ -1,0 +1,14 @@
+services:
+  react-app-node20:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: react-learning-app-node20
+    volumes:
+      - .:/workspaces
+    ports:
+      - "5100:5100"
+    environment:
+      - NODE_ENV=development
+    stdin_open: true # Reactのインタラクティブモード用
+    tty: true
