@@ -8,5 +8,11 @@ RUN apt-get update && apt-get install -y \
     vim \
     && rm -rf /var/lib/apt/lists/*
 
+RUN npm install -g pnpm    
+
+RUN echo -e "\n\
+alias ll='ls -la --color'\n\
+" >> /root/.bashrc
+
 # 開発用ポートを公開
 EXPOSE 5100
