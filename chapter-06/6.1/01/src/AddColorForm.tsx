@@ -1,5 +1,5 @@
-import { useInput } from './hooks';
 import { useColors } from './ColorProvider';
+import { useInput } from './hooks';
 
 export default function AddColorForm() {
   const [titleProps, resetTitle] = useInput('');

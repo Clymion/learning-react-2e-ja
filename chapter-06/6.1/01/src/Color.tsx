@@ -1,6 +1,6 @@
+import { FaTrash } from 'react-icons/fa';
 import { useColors } from './ColorProvider';
 import StarRating from './StarRating';
-import { FaTrash } from 'react-icons/fa';
 
 export default function Color({
   id,

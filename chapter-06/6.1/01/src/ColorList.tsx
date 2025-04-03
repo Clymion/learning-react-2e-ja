@@ -1,5 +1,5 @@
-import { useColors } from './ColorProvider';
 import Color from './Color';
+import { useColors } from './ColorProvider';
 
 export default function ColorList() {
   const { colors } = useColors();

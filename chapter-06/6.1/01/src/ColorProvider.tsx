@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import colorData from './color-data.json';
-import { ColorType } from './types/ColorType';
-import createCxt from './lib/ContextWrapper';
+import { useState } from 'react';
 import { v4 } from 'uuid';
+import colorData from './color-data.json';
+import createCxt from './lib/ContextWrapper';
+import { ColorType } from './types/ColorType';
 
 type ColorContextType = {
   colors: ColorType;
