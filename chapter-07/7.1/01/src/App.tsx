@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 function Checkbox() {
   const [checked, setChecked] = useState(false);
@@ -10,9 +10,9 @@ function Checkbox() {
       <input
         type="checkbox"
         value={checked}
-        onChange={() => setChecked(checked => !checked)}
+        onChange={() => setChecked((checked) => !checked)}
       />
-      {checked ? "checked" : "not checked"}
+      {checked ? 'checked' : 'not checked'}
     </>
   );
 }
