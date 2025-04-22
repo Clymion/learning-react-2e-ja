@@ -2,7 +2,13 @@ import React from "react";
 import Recipe from "./Recipe";
 import "./Menu.css";
 
-export default function Menu({ recipes = [] }) {
+type Recipe = {
+  name: string;
+  ingredients: { name: string; amount: number; measurement: string }[];
+  steps: string[];
+};
+
+export default function Menu({ recipes = [] }: { recipes: Recipe[] }) {
   return (
     <article>
       <header>
