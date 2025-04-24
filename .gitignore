@@ -3,3 +3,4 @@
 
 *.sh
 chapter-05/5.3/sample*
+**/node_modules
