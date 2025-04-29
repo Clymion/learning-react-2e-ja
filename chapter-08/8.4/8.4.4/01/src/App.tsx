@@ -1,5 +1,4 @@
-import React from "react";
-import Fetch from "./Fetch";
+import Fetch from './Fetch';
 
 function GitHubUser({ login }) {
   return (
@@ -13,7 +12,11 @@ function GitHubUser({ login }) {
 function UserDetails({ data }) {
   return (
     <div className="githubUser">
-      <img src={data.avatar_url} alt={data.login} style={{ width: 200 }} />
+      <img
+        src={data.avatar_url}
+        alt={data.login}
+        style={{ width: 200 }}
+      />
       <div>
         <h1>{data.login}</h1>
         {data.name && <p>{data.name}</p>}
