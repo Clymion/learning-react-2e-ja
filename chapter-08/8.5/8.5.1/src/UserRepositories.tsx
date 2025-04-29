@@ -8,7 +8,7 @@ export default function UserRepositories({ login, onSelect = f => f }) {
       renderSuccess={({ data }) => (
         <RepoMenu
           repositories={data}
-          onSelect={onSelect}
+          login={login}
         />
       )}
     />
