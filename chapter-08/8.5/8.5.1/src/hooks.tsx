@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
-export function useFetch(uri) {
+export function useFetch(uri: string | null) {
   const [data, setData] = useState();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(true);
@@ -8,7 +8,7 @@ export function useFetch(uri) {
   useEffect(() => {
     if (!uri) return;
     fetch(uri)
-      .then(data => data.json())
+      .then((data) => data.json())
       .then(setData)
       .then(() => setLoading(false))
       .catch(setError);
@@ -17,7 +17,7 @@ export function useFetch(uri) {
   return {
     loading,
     data,
-    error
+    error,
   };
 }
 
@@ -39,10 +39,10 @@ export const useIterator = (items = [], initialValue = 0) => {
   return [item || items[0], prev, next];
 };
 
-export const useInput = initialValue => {
-  const [value, setValue] = useState(initialValue);
+export const useInput = <T extends string | number>(initialValue: T) => {
+  const [value, setValue] = useState<T>(initialValue);
   return [
-    { value, onChange: e => setValue(e.target.value) },
-    () => setValue(initialValue)
-  ];
+    { value, onChange: (e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value as T) },
+    () => setValue(initialValue),
+  ] as const;
 };

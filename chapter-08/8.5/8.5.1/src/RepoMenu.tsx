@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useIterator } from "./hooks";
 
 export default function RepoMenu({ repositories, onSelect = f => f }) {

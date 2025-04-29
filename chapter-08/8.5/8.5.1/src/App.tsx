@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import SearchForm from "./SearchForm";
 import GitHubUser from "./GitHubUser";
 

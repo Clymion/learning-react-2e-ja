@@ -1,4 +1,3 @@
-import React from "react";
 import { useInput } from "./hooks";
 
 export default function SearchForm({ value, onSearch }) {
