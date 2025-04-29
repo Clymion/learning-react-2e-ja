@@ -1,7 +1,29 @@
 import React, { useState, useEffect } from "react";
 
+type GitHubUserProps = {
+  login: string;
+  name: string;
+  location: string;
+  avatar_url: string;
+};
+
+const LoginUserForm = () => {
+  const [login, setLogin] = useState('moonhighway');
+  return (
+    <>
+      <h1>Login User Form</h1>
+      <input
+        type="text"
+        defaultValue={login}
+        onBlur={(e) => setLogin(e.target.value)}
+      />
+      <GitHubUser login={login} />
+    </>
+  );
+};
+
 function GitHubUser({ login }) {
-  const [data, setData] = useState();
+  const [data, setData] = useState<GitHubUserProps>();
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -32,5 +54,5 @@ function GitHubUser({ login }) {
 }
 
 export default function App() {
-  return <GitHubUser login="moonhighway" />;
+  return <LoginUserForm />;
 }

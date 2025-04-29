@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
-const loadJSON = key => key && JSON.parse(localStorage.getItem(key));
-const saveJSON = (key, data) => localStorage.setItem(key, JSON.stringify(data));
+const loadJSON = (key: string) => key && JSON.parse(localStorage.getItem(key) || '{}');
+const saveJSON = (key: string, data: any): void =>
+  localStorage.setItem(key, JSON.stringify(data));
 
 function GitHubUser({ login }) {
-  const [data, setData] = useState(loadJSON(`user:${login}`));
+  const [data, setData] = useState(loadJSON(`user.${login}`));
 
   useEffect(() => {
     if (!data) return;
     const { name, avatar_url, location } = data;
-    saveJSON(`user:${login}`, {
+    saveJSON(`user.${login}`, {
       name,
       login,
       avatar_url,
-      location
+      location,
     });
   }, [data]);
 
@@ -21,7 +22,7 @@ function GitHubUser({ login }) {
     if (!login) return;
     if (data && data.login === login) return;
     fetch(`https://api.github.com/users/${login}`)
-      .then(response => response.json())
+      .then((response) => response.json())
       .then(setData)
       .catch(console.error);
   }, [login]);
@@ -32,5 +33,5 @@ function GitHubUser({ login }) {
 }
 
 export default function App() {
-  return <GitHubUser login="moonhighway" />;
+  return <GitHubUser login="clymion" />;
 }
