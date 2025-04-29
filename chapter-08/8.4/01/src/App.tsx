@@ -1,11 +1,11 @@
 import React from 'react';
+import { faker } from '@faker-js/faker';
 
-const tahoe_peaks = [
-  { name: 'Freel Peak', elevation: 10891 },
-  { name: 'Monument Peak', elevation: 10067 },
-  { name: 'Pyramid Peak', elevation: 9983 },
-  { name: 'Mt. Tallac', elevation: 9735 },
-];
+const bigList = [...Array(5000)].map(() => ({
+  name: faker.internet.username(),
+  email: faker.internet.email(),
+  avatar: faker.image.avatar(),
+}));
 
 function List({
   data = [],
@@ -14,7 +14,7 @@ function List({
 }: {
   data: any[];
   renderItem: (item: any) => React.ReactNode;
-  renderEmpty: React.ReactNode;
+  renderEmpty?: React.ReactNode;
 }) {
   return !data.length ? (
     renderEmpty
@@ -28,15 +28,23 @@ function List({
 }
 
 export default function App() {
+  const renderItem = (item) => (
+    <div style={{ display: 'flex' }}>
+      <img
+        src={item.avatar}
+        alt={item.name}
+        width={50}
+      />
+      <p>
+        {item.name} - {item.email}
+      </p>
+    </div>
+  );
+
   return (
     <List
-      data={tahoe_peaks}
-      renderEmpty={<p>This list is empty</p>}
-      renderItem={(item) => (
-        <>
-          {item.name} - {item.elevation.toLocaleString()}
-        </>
-      )}
+      data={bigList}
+      renderItem={renderItem}
     />
   );
 }
