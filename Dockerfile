@@ -10,9 +10,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN npm install -g pnpm    
 
-RUN echo -e "\n\
-alias ll='ls -la --color'\n\
-" >> /root/.bashrc
+RUN echo "\nalias ll='ls -la --color'\n" >> /root/.bashrc
 
 # 開発用ポートを公開
 EXPOSE 5100
