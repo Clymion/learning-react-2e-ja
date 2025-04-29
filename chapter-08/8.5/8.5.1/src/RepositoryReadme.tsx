@@ -6,12 +6,12 @@ export default function RepositoryReadme({ repo, login }) {
   const [error, setError] = useState();
   const [markdown, setMarkdown] = useState('');
 
-  const loadReadme = useCallback(async (login, repo) => {
+  const loadReadme = useCallback(async (login: string, repo: string) => {
     setLoading(true);
     const uri = `https://api.github.com/repos/${login}/${repo}/readme`;
     const { download_url } = await fetch(uri).then((res) => res.json());
     const markdown = await fetch(download_url).then((res) => res.text());
-    setMarkdown(markdown);
+      setMarkdown(markdown);
     setLoading(false);
   }, []);
 
