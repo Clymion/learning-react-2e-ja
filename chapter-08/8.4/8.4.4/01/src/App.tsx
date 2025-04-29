@@ -1,10 +1,30 @@
+import { useState } from 'react';
 import Fetch from './Fetch';
+
+const LoginUserForm = () => {
+  const [login, setLogin] = useState('moonhighway');
+  return (
+    <>
+      <h1>Login User Form</h1>
+      <input
+        type="text"
+        defaultValue={login}
+        onBlur={(e) => setLogin(e.target.value)}
+      />
+      <GitHubUser login={login} />
+    </>
+  );
+};
 
 function GitHubUser({ login }) {
   return (
     <Fetch
       uri={`https://api.github.com/users/${login}`}
       renderSuccess={UserDetails}
+      renderError={error => {
+        // handle error
+        return <p>Something went wrong... {error.message}</p>;
+      }}
     />
   );
 }
@@ -27,5 +47,5 @@ function UserDetails({ data }) {
 }
 
 export default function App() {
-  return <GitHubUser login="moonhighway" />;
+  return <LoginUserForm />;
 }
