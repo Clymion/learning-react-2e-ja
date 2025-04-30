@@ -14,7 +14,7 @@ export default function SearchForm({ value, onSearch }) {
         type="text"
         {...searchProps}
         placeholder="login id..."
-        required
+        // required
       />
       <button>Search</button>
     </form>

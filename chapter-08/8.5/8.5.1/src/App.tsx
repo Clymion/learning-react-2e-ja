@@ -7,9 +7,18 @@ import RepositoryReadme from "./RepositoryReadme";
 export default function App() {
   const [login, setLogin] = useState("moonhighway");
   const [repo, setRepo] = useState("learning-react");
+
+  const handleSearch = (login: string | null | undefined) => {
+    if (login) return setLogin(login);
+    setLogin("");
+    setRepo("");
+  };
+
+  if (!login) return <SearchForm value={login} onSearch={handleSearch} />;
+
   return (
     <>
-      <SearchForm value={login} onSearch={setLogin} />
+      <SearchForm value={login} onSearch={handleSearch} />
       <GitHubUser login={login} />
       <UserRepositories
         login={login}
