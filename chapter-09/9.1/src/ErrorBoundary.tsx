@@ -1,9 +1,18 @@
-import React, { Component } from "react";
+import { Component, ReactNode } from 'react';
 
-export default class ErrorBoundary extends Component {
-  state = { error: null };
+interface ErrorBoundaryProps {
+  children: ReactNode;
+  fallback?: (props: { error: Error }) => ReactNode;
+}
 
-  static getDerivedStateFromError(error) {
+interface ErrorBoundaryState {
+  error: Error | null;
+}
+
+export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  state: ErrorBoundaryState = { error: null };
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { error };
   }
 
@@ -11,17 +20,23 @@ export default class ErrorBoundary extends Component {
     const { error } = this.state;
     const { children, fallback } = this.props;
 
-    if (error && !fallback) return <ErrorScreen error={error} />;
-    if (error) return fallback({error});
+    if (error) {
+      if (!fallback) return <ErrorScreen error={error} />;
+      return fallback({ error });
+    }
     return children;
   }
 }
 
 export const BreakThings = () => {
-  throw new Error("We intentionally broke something");
+  throw new Error('We intentionally broke something');
+};
+
+interface ErrorScreenProps {
+  error: Error;
 }
 
-function ErrorScreen({ error }) {
+function ErrorScreen({ error }: ErrorScreenProps) {
   return (
     <div className="error">
       <h3>We are sorry... something went wrong</h3>
