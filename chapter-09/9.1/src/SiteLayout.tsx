@@ -1,7 +1,14 @@
+import { ReactNode } from 'react';
+
+interface SiteLayoutProps {
+  children: ReactNode;
+  menu?: ReactNode;
+}
+
 export default function SiteLayout({
   children,
-  menu = c => null
-}) {
+  menu,
+}: SiteLayoutProps) {
   return (
     <div className="site-container">
       <div className="menu">{menu}</div>
