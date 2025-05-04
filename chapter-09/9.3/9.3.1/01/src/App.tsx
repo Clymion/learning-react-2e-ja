@@ -1,7 +1,7 @@
-import React, {Suspense} from "react";
-import ErrorBoundary from "./ErrorBoundary";
+import React, { Suspense } from 'react';
+import ErrorBoundary from './ErrorBoundary';
 
-const loadStatus = () => "success - ready";
+const loadStatus = () => 'success - ready';
 
 function Status() {
   const status = loadStatus();
