@@ -1,6 +1,5 @@
-import React from "react";
-import { useColors } from "./";
-import Color from "./Color";
+import Color from './Color';
+import { useColors } from './hooks';
 
 export default function ColorList() {
   const { colors } = useColors();
@@ -10,8 +9,11 @@ export default function ColorList() {
       {colors.length === 0 ? (
         <p>No Colors Listed. (Add a Color)</p>
       ) : (
-        colors.map(color => (
-          <Color key={color.id} {...color} />
+        colors.map((color) => (
+          <Color
+            key={color.id}
+            {...color}
+          />
         ))
       )}
     </div>

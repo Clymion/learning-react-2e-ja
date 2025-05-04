@@ -1,22 +1,19 @@
-import React, {
-  useReducer,
+import {
   createContext,
-  useContext,
-  useState,
-  useEffect,
   useCallback,
+  useContext,
+  useDebugValue,
+  useEffect,
   useMemo,
-  useDebugValue
-} from "react";
-import { v4 } from "uuid";
+  useReducer,
+  useState,
+} from 'react';
+import { v4 } from 'uuid';
 
-export const useInput = initialValue => {
+export const useInput = (initialValue) => {
   const [value, setValue] = useState(initialValue);
   useDebugValue(value);
-  return [
-    { value, onChange: e => setValue(e.target.value) },
-    () => setValue(initialValue)
-  ];
+  return [{ value, onChange: (e) => setValue(e.target.value) }, () => setValue(initialValue)];
 };
 
 const ColorContext = createContext();
@@ -28,20 +25,20 @@ export const useColors = () => {
 
 const reducer = (state = [], action) => {
   switch (action.type) {
-    case "ADD_COLOR":
+    case 'ADD_COLOR':
       return [
         ...state,
         {
           id: action.payload.id,
           title: action.payload.title,
           color: action.payload.color,
-          rating: 0
-        }
+          rating: 0,
+        },
       ];
-    case "REMOVE_COLOR":
-      return state.filter(c => c.id !== action.payload.id);
-    case "RATE_COLOR":
-      return state.map(c =>
+    case 'REMOVE_COLOR':
+      return state.filter((c) => c.id !== action.payload.id);
+    case 'RATE_COLOR':
+      return state.map((c) =>
         c.id !== action.payload.id ? c : { ...c, rating: action.payload.rating }
       );
     default:
@@ -50,41 +47,38 @@ const reducer = (state = [], action) => {
 };
 
 export const ColorProvider = ({ children }) => {
-  const initColors = localStorage.getItem("colors");
-  const [_colors, dispatch] = useReducer(
-    reducer,
-    initColors ? JSON.parse(initColors) : []
-  );
+  const initColors = localStorage.getItem('colors');
+  const [_colors, dispatch] = useReducer(reducer, initColors ? JSON.parse(initColors) : []);
 
   const colors = useMemo(() => _colors, [_colors]);
 
   const addColor = useCallback((title, color) =>
     dispatch({
-      type: "ADD_COLOR",
+      type: 'ADD_COLOR',
       payload: {
         id: v4(),
         title,
-        color
-      }
+        color,
+      },
     })
   );
 
-  const removeColor = useCallback(id => {
+  const removeColor = useCallback((id) => {
     dispatch({
-      type: "REMOVE_COLOR",
-      payload: { id }
+      type: 'REMOVE_COLOR',
+      payload: { id },
     });
   });
 
   const rateColor = useCallback((id, rating) => {
     dispatch({
-      type: "RATE_COLOR",
-      payload: { id, rating }
+      type: 'RATE_COLOR',
+      payload: { id, rating },
     });
   });
 
   useEffect(() => {
-    localStorage.setItem("colors", JSON.stringify(colors));
+    localStorage.setItem('colors', JSON.stringify(colors));
   }, [colors]);
 
   return (

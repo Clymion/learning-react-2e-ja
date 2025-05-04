@@ -1,12 +1,11 @@
-import React from "react";
-import { useInput, useColors } from "./";
+import { useColors, useInput } from './hooks';
 
 export default function AddColorForm() {
-  const [titleProps, resetTitle] = useInput("");
-  const [colorProps, resetColor] = useInput("#000000");
+  const [titleProps, resetTitle] = useInput('');
+  const [colorProps, resetColor] = useInput('#000000');
   const { addColor } = useColors();
 
-  const submit = e => {
+  const submit = (e) => {
     e.preventDefault();
     addColor(titleProps.value, colorProps.value);
     resetTitle();
@@ -14,14 +13,21 @@ export default function AddColorForm() {
   };
 
   return (
-    <form className="add-color" onSubmit={submit}>
+    <form
+      className="add-color"
+      onSubmit={submit}
+    >
       <input
         {...titleProps}
         type="text"
         placeholder="color title..."
         required
       />
-      <input {...colorProps} type="color" required />
+      <input
+        {...colorProps}
+        type="color"
+        required
+      />
       <button>ADD</button>
     </form>
   );

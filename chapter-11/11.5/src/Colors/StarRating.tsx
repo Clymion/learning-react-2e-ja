@@ -1,11 +1,6 @@
-import React from "react";
-import Star from "./Star";
+import Star from './Star';
 
-export default function StarRating({
-  total = 5,
-  selected = 0,
-  onChange = f => f
-}) {
+export default function StarRating({ total = 5, selected = 0, onChange = (f) => f }) {
   return (
     <div className="star-rating">
       {[...Array(total)].map((n, i) => (
