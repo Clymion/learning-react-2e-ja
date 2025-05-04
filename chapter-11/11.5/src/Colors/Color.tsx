@@ -7,11 +7,18 @@ import StarRating from './StarRating';
 const Trash = memo(FaTrash);
 const Rating = memo(StarRating);
 
+export interface ColorType {
+  id: string;
+  title: string;
+  color: string;
+  rating?: number;
+}
+
 export default memo(
-  function Color({ id, title, color, rating = 0 }) {
+  function Color({ id, title, color, rating = 0 }: ColorType) {
     const { rateColor, removeColor } = useColors();
 
-    const rate = useCallback((rating) => rateColor(id, rating), []);
+    const rate = useCallback((rating: number) => rateColor(id, rating), [id, rateColor]);
 
     let navigate = useNavigate();
 

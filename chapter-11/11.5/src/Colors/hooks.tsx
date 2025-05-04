@@ -1,29 +1,31 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useDebugValue,
-  useEffect,
-  useMemo,
-  useReducer,
-  useState,
-} from 'react';
+import { useCallback, useDebugValue, useEffect, useMemo, useReducer, useState } from 'react';
 import { v4 } from 'uuid';
 
-export const useInput = (initialValue) => {
+import createCxt from '../lib/ContextWrapper';
+import { ColorType } from './Color';
+import sampleColors from './default-colors.json';
+
+export const useInput = (
+  initialValue: string
+): [{ value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }, () => void] => {
   const [value, setValue] = useState(initialValue);
   useDebugValue(value);
   return [{ value, onChange: (e) => setValue(e.target.value) }, () => setValue(initialValue)];
 };
 
-const ColorContext = createContext();
-export const useColors = () => {
-  const ctx = useContext(ColorContext);
-  useDebugValue(ctx.colors.length);
-  return ctx;
+type ColorContextType = {
+  colors: ColorType[];
+  addColor: (title: string, color: string) => void;
+  rateColor: (id: string, rating: number) => void;
+  removeColor: (id: string) => void;
 };
+const [useColors, ColorContextProvider] = createCxt<ColorContextType>();
+export { useColors };
 
-const reducer = (state = [], action) => {
+const reducer = (
+  state: Array<{ id: string; title: string; color: string; rating?: number }> = [],
+  action: { type: string; payload: any }
+) => {
   switch (action.type) {
     case 'ADD_COLOR':
       return [
@@ -47,43 +49,52 @@ const reducer = (state = [], action) => {
 };
 
 export const ColorProvider = ({ children }) => {
-  const initColors = localStorage.getItem('colors');
-  const [_colors, dispatch] = useReducer(reducer, initColors ? JSON.parse(initColors) : []);
+  const defaultColors = sampleColors as ColorType[];
+  const initColors = JSON.parse(localStorage.getItem('colors') ?? '') as ColorType[];
+  const [_colors, dispatch] = useReducer(reducer, initColors ? initColors : defaultColors);
 
-  const colors = useMemo(() => _colors, [_colors]);
+  const colors = useMemo((): ColorType[] => _colors, [_colors]);
 
-  const addColor = useCallback((title, color) =>
-    dispatch({
-      type: 'ADD_COLOR',
-      payload: {
-        id: v4(),
-        title,
-        color,
-      },
-    })
+  const addColor = useCallback(
+    (title: string, color: string) =>
+      dispatch({
+        type: 'ADD_COLOR',
+        payload: {
+          id: v4(),
+          title,
+          color,
+        },
+      }),
+    [dispatch]
   );
 
-  const removeColor = useCallback((id) => {
-    dispatch({
-      type: 'REMOVE_COLOR',
-      payload: { id },
-    });
-  });
+  const removeColor = useCallback(
+    (id) => {
+      dispatch({
+        type: 'REMOVE_COLOR',
+        payload: { id },
+      });
+    },
+    [dispatch]
+  );
 
-  const rateColor = useCallback((id, rating) => {
-    dispatch({
-      type: 'RATE_COLOR',
-      payload: { id, rating },
-    });
-  });
+  const rateColor = useCallback(
+    (id, rating) => {
+      dispatch({
+        type: 'RATE_COLOR',
+        payload: { id, rating },
+      });
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     localStorage.setItem('colors', JSON.stringify(colors));
   }, [colors]);
 
   return (
-    <ColorContext.Provider value={{ colors, addColor, rateColor, removeColor }}>
+    <ColorContextProvider value={{ colors, addColor, rateColor, removeColor }}>
       {children}
-    </ColorContext.Provider>
+    </ColorContextProvider>
   );
 };

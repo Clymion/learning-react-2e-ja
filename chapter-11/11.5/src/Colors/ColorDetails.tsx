@@ -6,6 +6,9 @@ export function ColorDetails() {
   let { colors } = useColors();
 
   let foundColor = colors.find((color) => color.id === id);
+  if (!foundColor) {
+    return <h1>Color not found</h1>;
+  }
 
   return (
     <div>
